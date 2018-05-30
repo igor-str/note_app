@@ -13,20 +13,32 @@ export default new Vuex.Store({
       "name": "",
       "email": "",
       "body": ""
-    }
+    },
+    editNote: {}
+      // editNote: {
+    //   "name": "",
+    //   "email": "",
+    //   "body": ""
+    // }
   },
   getters: {},
   mutations: {
     setPosts(state, posts) {
       state.notes = posts
     },
-    addPost (state) {
+    addPost(state) {
       state.notes.unshift(state.newNote)
     },
     removePost(state, item) {
       let id = state.notes.indexOf(item);
       if (id > -1) {
         state.notes.splice(id, 1);
+      }
+    },
+    editPost(state, item) {
+      let id = state.notes.indexOf(item);
+      if (id !== -1) {
+        state.notes[id] = state.editNote;
       }
     }
   },

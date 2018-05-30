@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-12 text-center">
-        <router-link class="btn btn-success" :to='{name: "AddItem"}'>Add new note</router-link>
+        <router-link class="btn btn-success col-4" :to='{name: "AddItem"}'>Add new note</router-link>
       </div>
     </div>
     <div class="row">
@@ -17,7 +17,7 @@
           </div>
           <div class="w-100"></div>
           <div class="btn-box text-right">
-            <button class="btn btn-primary col-2">Edit note</button>
+            <router-link class="btn btn-primary col-2" :to='{name: "EditItem", params: {id: item} }'>Edit note</router-link>
             <button @click="removePost(item)" :key="item.id" class="btn btn-danger col-2">Delete note</button>
           </div>
         </li>
@@ -40,7 +40,8 @@
     },
     methods: {
       ...mapMutations({
-        removePost: 'removePost'
+        removePost: 'removePost',
+        editPost: 'editPost'
       })
     },
     components: {
