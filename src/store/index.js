@@ -22,7 +22,12 @@ export default new Vuex.Store({
     },
     addPost (state) {
       state.notes.unshift(state.newNote)
-      console.log(state.notes)
+    },
+    removePost(state, item) {
+      let id = state.notes.indexOf(item);
+      if (id > -1) {
+        state.notes.splice(id, 1);
+      }
     }
   },
   actions: {
