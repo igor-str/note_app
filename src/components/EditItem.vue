@@ -12,7 +12,8 @@
         </div>
         <div class="form-group">
           <label for="edit-email">Email address</label>
-          <input v-model="editNote.email" type="email" class="form-control" id="edit-email" aria-describedby="emailHelp" placeholder="edit email">
+          <input v-model="editNote.email" type="email" class="form-control" id="edit-email" aria-describedby="emailHelp"
+                 placeholder="edit email">
         </div>
         <button type="button" @click.once="editPost(paramsId)" class="btn btn-primary">Save changes</button>
         <router-link class="btn btn-warning" :to='{name: "List"}'>End edit</router-link>
@@ -22,7 +23,8 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState, mapMutations, mapActions} from 'vuex'
+
   export default {
     data() {
       return {
@@ -39,12 +41,15 @@
       ...mapMutations({
         editPost: 'editPost'
       })
+    },
+    mounted() {
+      this.$store.commit('setContent', this.paramsId)
     }
   }
 </script>
 
 <style lang="scss" scoped>
-.edit-item {
-  margin: 15px 0;
-}
+  .edit-item {
+    margin: 15px 0;
+  }
 </style>

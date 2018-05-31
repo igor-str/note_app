@@ -15,11 +15,6 @@ export default new Vuex.Store({
       "body": ""
     },
     editNote: {}
-      // editNote: {
-    //   "name": "",
-    //   "email": "",
-    //   "body": ""
-    // }
   },
   getters: {},
   mutations: {
@@ -39,6 +34,13 @@ export default new Vuex.Store({
       let id = state.notes.indexOf(item);
       if (id !== -1) {
         state.notes[id] = state.editNote;
+      }
+    },
+    setContent(state, item) {
+      let id = state.notes.indexOf(item);
+      if (id !== -1) {
+        state.editNote = state.notes[id]
+        state.notes[id] = state.editNote
       }
     }
   },

@@ -17,7 +17,8 @@
           </div>
           <div class="w-100"></div>
           <div class="btn-box text-right">
-            <router-link class="btn btn-primary col-2" :to='{name: "EditItem", params: {id: item} }'>Edit note</router-link>
+            <router-link class="btn btn-primary col-2" :to='{name: "EditItem", params: {id: item} }'>Edit note
+            </router-link>
             <button @click="removePost(item)" :key="item.id" class="btn btn-danger col-2">Delete note</button>
           </div>
         </li>
@@ -29,6 +30,7 @@
 <script>
   import {mapState, mapMutations} from 'vuex'
   import AddItem from './AddItem'
+
   export default {
     data() {
       return {}
@@ -54,6 +56,7 @@
   .btn {
     margin: 15px 0;
   }
+
   .note-item {
     &__title {
       text-transform: uppercase;
