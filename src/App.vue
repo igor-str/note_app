@@ -16,6 +16,7 @@
     },
     mounted() {
       this.$store.dispatch('getPosts')
+      this.$store.commit('saveState')
     },
     components: {
       List

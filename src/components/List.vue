@@ -2,6 +2,7 @@
   <div>
     <div class="row">
       <h1 class="text-center col-12">Note app</h1>
+      <search></search>
       <div class="col-12 text-center">
         <router-link class="btn btn-success col-4" :to='{name: "AddItem"}'>Add new note</router-link>
       </div>
@@ -17,8 +18,8 @@
           </form>
         </template>
       </comment>
-      <ul class="list-group col-12">
-        <li class="list-group-item note-item" v-for="item in notes">
+      <ul class="col-12">
+        <li class="list-group-item note-item" v-for="item in searchByName">
           <div class="row">
             <h6 class="col-9 note-item__title">{{item.name}}</h6>
             <div class="col-3 note-item__email text-right">{{item.email}}</div>
@@ -44,8 +45,9 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState, mapMutations, mapGetters} from 'vuex'
   import Comment from './Comment'
+  import Search from './Search'
 
   export default {
     data() {
@@ -59,6 +61,9 @@
     computed: {
       ...mapState({
         notes: 'notes',
+      }),
+      ...mapGetters({
+        searchByName: 'searchByName'
       })
     },
     methods: {
@@ -76,11 +81,11 @@
       addComment() {
         let d = new Date()
         let year = d.getFullYear()
-        let mon = d.getMonth() + 1
-        let day = d.getDate()
-        let hours = d.getHours()
-        let min = d.getMinutes()
-        let sec = d.getSeconds()
+        let mon = ((d.getMonth() + 1 < 10) ? "0" : "") + (d.getMonth() + 1)
+        let day = ((d.getDate() < 10) ? "0" : "") + d.getDate()
+        let hours = ((d.getHours() < 10) ? "0" : "") + d.getHours()
+        let min = ((d.getMinutes() < 10) ? "0" : "") + d.getMinutes()
+        let sec = ((d.getSeconds() < 10) ? "0" : "") + d.getSeconds()
         this.currentTime = day + "/" + mon + "/" + year + "  " + hours + ":" + min + ":" + sec
 
         if (!this.current.hasOwnProperty('comments')) {
@@ -96,7 +101,8 @@
       }
     },
     components: {
-      Comment
+      Comment,
+      Search
     }
   }
 </script>

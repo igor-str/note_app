@@ -4,25 +4,36 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+const STORAGE_KEY = 'note-storage'
+
 export default new Vuex.Store({
   state: {
     notes: [],
-    newNote: {
-      "postId": 1,
-      "id": 1,
-      "name": "",
-      "email": "",
-      "body": ""
-    },
-    editNote: {}
+    newNote: {},
+    editNote: {},
+    search: "",
+    searchArr: []
   },
-  getters: {},
+  getters: {
+    searchByName: (state) => {
+      if(state.search !== "") {
+        return state.notes.filter(item => {
+          return item.name.indexOf(state.search) > -1
+        })
+      } else {
+        return state.notes
+      }
+    }
+  },
   mutations: {
     setPosts(state, posts) {
       state.notes = posts
     },
     addPost(state) {
       state.notes.unshift(state.newNote)
+      state.newNote.id = state.notes.length
+      state.newNote.postId = state.notes.length
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.newNote))
     },
     removePost(state, item) {
       let id = state.notes.indexOf(item);
@@ -42,11 +53,30 @@ export default new Vuex.Store({
         state.editNote = state.notes[id]
         state.notes[id] = state.editNote
       }
+    },
+    saveState(state) {
+      console.warn('saveState')
+      setTimeout(() => {
+        return state.notes.unshift(JSON.parse(localStorage.getItem(STORAGE_KEY || "[]")))
+      }, 300)
+    },
+    searchCommit(state, payload) {
+      state.search = payload
+    },
+    sortPosts(state) {
+      return state.notes.sort(function(a, b) {
+        return (a.name > b.name) ? 1 : -1
+      })
+    },
+    sortPostsReverse(state) {
+      return state.notes.sort(function(a, b) {
+        return (b.name > a.name) ? 1 : -1
+      })
     }
   },
   actions: {
     getPosts({commit}) {
-      axios.get('https://jsonplaceholder.typicode.com/comments?_limit=10')
+      axios.get('https://jsonplaceholder.typicode.com/comments')
         .then(response => {
           commit('setPosts', response.data)
         })
